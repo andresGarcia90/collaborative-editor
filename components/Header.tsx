@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 const Header = ({ children }: HeaderProps) => {
   return (
@@ -22,6 +23,12 @@ const Header = ({ children }: HeaderProps) => {
         />
       </Link>
       {children}
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </div>
   );
 };
