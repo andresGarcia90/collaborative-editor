@@ -3,6 +3,7 @@ import '@/app/globals.css';
 import { Inter as FontSans } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 
+import Provider from './Provider';
 import { cn } from '@/lib/utils';
 import { dark } from '@clerk/themes';
 
@@ -33,7 +34,9 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
-          {children}
+          <Provider>
+            {children}
+          </Provider>
         </body>
       </html>
     </ClerkProvider>
