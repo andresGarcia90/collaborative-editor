@@ -28,11 +28,15 @@ export async function POST(request: Request) {
 
   const { status, body } = await liveblocks.identifyUser(
     {
-      userId: user.id,
+      userId: user.info.email,
       groupIds: [],
     },
     { userInfo: user.info },
   );
+
+  console.log("Status ", status);
+  console.log("body ", body);
+  
 
   return new Response(body, { status });
 }
