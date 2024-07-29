@@ -17,11 +17,12 @@ export const createRoom = async ({ userId, email }: CreateDocumentParams) => {
 
     const usersAccesses: RoomAccesses = {
       [email]: ['room:write'],
+      // ["garciaamado.andres@gmail.com"]: ['room:write'],
     };
 
     const room = await liveblocks.createRoom(roomId, {
       metadata,
-      defaultAccesses: [],
+      defaultAccesses: ['room:write'],
       usersAccesses,
     });
 
@@ -35,12 +36,14 @@ export const createRoom = async ({ userId, email }: CreateDocumentParams) => {
 export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string;}) => {
   try {
     const room: RoomData = await liveblocks.getRoom(roomId);
+    console.log("ROOMS ", room);
+    
+    //TODO: Bring this back
+    // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
-    const hasAccess = Object.keys(room.usersAccesses).includes(userId);
-
-    if (!hasAccess) {
-      throw new Error('Room not found');
-    }
+    // if (!hasAccess) {
+    //   throw new Error('Room not found');
+    // }
 
     return parseStringify(room);
   } catch (error) {
