@@ -33,11 +33,17 @@ export const createRoom = async ({ userId, email }: CreateDocumentParams) => {
   }
 };
 
-export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string;}) => {
+export const getDocument = async ({
+  roomId,
+  userId,
+}: {
+  roomId: string;
+  userId: string;
+}) => {
   try {
     const room: RoomData = await liveblocks.getRoom(roomId);
-    console.log("ROOMS ", room);
-    
+    // console.log('ROOMS ', room);
+
     //TODO: Bring this back
     // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
@@ -48,5 +54,18 @@ export const getDocument = async ({ roomId, userId }: { roomId: string; userId: 
     return parseStringify(room);
   } catch (error) {
     console.log(`Error happened while getting a room: ${error}`);
+  }
+};
+
+export const updateRoom = async (roomId: string, title: string) => {
+  try {
+    const room = await liveblocks.updateRoom(roomId, { metadata: { title } });
+    if (room) {
+      revalidatePath(`documents/${roomId}`);
+      return parseStringify(room);
+    }
+    throw new Error('Room not found');
+  } catch (error) {
+    console.log(`Error happened while updating a room: ${error}`);
   }
 };
