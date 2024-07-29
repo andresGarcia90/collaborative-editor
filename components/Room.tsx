@@ -41,9 +41,11 @@ export function CollaborativeRoom({
     if (key === 'Enter') {
       setLoading(true);
       if (documentTitle !== title) {
-        await updateRoom(roomId, documentTitle);
-        setEditing(false);
-        setLoading(false);
+        const room = await updateRoom(roomId, documentTitle);
+        if (room) {
+          setEditing(false);
+          setLoading(false);
+        }
       }
     }
   }
