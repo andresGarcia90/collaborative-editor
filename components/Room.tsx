@@ -18,12 +18,10 @@ import Loader from './Loader';
 export function CollaborativeRoom({
   roomId,
   roomMetadata,
-}: {
-  roomId: string;
-  roomMetadata: RoomMetadata;
-}) {
+  users,
+  currentUserType
+}: CollaborativeRoomProps) {
   const { title } = roomMetadata ?? 'New Document';
-  const currentUserType = 'editor';
 
   const [documentTitle, setDocumentTitle] = useState(title);
   const [editing, setEditing] = useState(false);
@@ -121,7 +119,7 @@ export function CollaborativeRoom({
             </SignedIn>
           </Header>
 
-          <Editor />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
