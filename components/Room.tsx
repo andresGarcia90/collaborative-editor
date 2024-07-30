@@ -13,6 +13,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { updateRoom } from '@/lib/actions/room.actions';
+import Loader from './Loader';
 
 export function CollaborativeRoom({
   roomId,
@@ -65,7 +66,7 @@ export function CollaborativeRoom({
 
   return (
     <RoomProvider id={roomId}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header>
             <div
