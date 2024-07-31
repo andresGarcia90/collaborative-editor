@@ -120,3 +120,16 @@ export const removeCollaborator = async (roomId: string, email: string) => {
     );
   }
 };
+
+
+
+export const deleteRoom = async (roomId: string) => {
+  try {
+    await liveblocks.deleteRoom(roomId);
+    revalidatePath(`/`);
+    
+    throw new Error('Room not found');
+  } catch (error) {
+    
+  }
+}
