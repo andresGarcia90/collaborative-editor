@@ -3,7 +3,7 @@
 import { nanoid } from 'nanoid';
 import liveblocks from '../liveblocks';
 import { revalidatePath } from 'next/cache';
-import { parseStringify } from '../utils';
+import { getAccessType, parseStringify } from '../utils';
 import { RoomData } from '@liveblocks/node';
 
 export const createRoom = async ({ userId, email }: CreateDocumentParams) => {
@@ -59,12 +59,12 @@ export const getDocument = async ({
 
 export const getAllDocuments = async (email: string) => {
   try {
-    const rooms = await liveblocks.getRooms({userId: email});
+    const rooms = await liveblocks.getRooms({ userId: email });
     return parseStringify(rooms);
   } catch (error) {
     console.log(`Error happened while getting rooms: ${error}`);
   }
-}
+};
 
 export const updateRoom = async (roomId: string, title: string) => {
   try {
@@ -76,5 +76,47 @@ export const updateRoom = async (roomId: string, title: string) => {
     throw new Error('Room not found');
   } catch (error) {
     console.log(`Error happened while updating a room: ${error}`);
+  }
+};
+
+export const updateDocumentAccess = async ({ roomId, email, userType, updatedBy } : ShareDocumentParams ) => {
+  try {
+
+    const usersAccesses: RoomAccesses = {
+      [email]: getAccessType(userType) as AccessType
+    }
+
+    const newRoom = await liveblocks.updateRoom(roomId, { usersAccesses });
+    if (newRoom) {
+      revalidatePath(`documents/${roomId}`);
+      return parseStringify(newRoom);
+    }
+    throw new Error('Room not found');
+  } catch (error) {
+    console.log(
+      `Error happened while updating permission for the room: ${error}`
+    );
+  }
+};
+
+export const removeCollaborator = async (roomId: string, email: string) => {
+  try {
+    const room: RoomData = await liveblocks.getRoom(roomId);
+    if (room.metadata.email === email) {
+      throw new Error('You cannot remove yourself');
+    }
+    const newRoom = await liveblocks.updateRoom(roomId, {
+      usersAccesses: { [email]: null },
+    });
+
+    if (newRoom) {
+      revalidatePath(`documents/${roomId}`);
+      return parseStringify(newRoom);
+    }
+    throw new Error('Room not found');
+  } catch (error) {
+    console.log(
+      `Error happened while updating permission for the room: ${error}`
+    );
   }
 };
