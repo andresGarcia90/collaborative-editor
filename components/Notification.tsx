@@ -1,9 +1,5 @@
 'use client';
-import {
-  useInboxNotifications,
-  useMarkAllInboxNotificationsAsRead,
-  useUnreadInboxNotificationsCount,
-} from '@liveblocks/react/suspense';
+import { useInboxNotifications } from '@liveblocks/react/suspense';
 
 import {
   Popover,
@@ -11,13 +7,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import Image from 'next/image';
-import { Button } from './ui/button';
 import { InboxNotification, LiveblocksUIConfig } from '@liveblocks/react-ui';
 import { ReactNode } from 'react';
 
 const Notification = () => {
-  const { inboxNotifications, error, isLoading } = useInboxNotifications();
-  const { count } = useUnreadInboxNotificationsCount();
+  const { inboxNotifications } = useInboxNotifications();
   const unreadNotifications = inboxNotifications.filter(
     (inboxNotification) => !inboxNotification.readAt
   );
