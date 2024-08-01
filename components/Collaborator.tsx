@@ -19,7 +19,7 @@ const Collaborator = ({
     setLoading(true);
     const userType: UserType = type === 'viewer' ? 'viewer' : 'editor';
     const room = await updateDocumentAccess({roomId, email, userType, updatedBy: user});
-    if (room) { setLoading(false); }
+    setLoading(false);
   };
   const removeCollaboratorHandler = async (email: string) => {
     setLoading(true);
