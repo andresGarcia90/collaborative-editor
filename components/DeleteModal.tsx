@@ -40,7 +40,7 @@ const DeleteModal = ({ roomId, title }: { roomId: string; title: string }) => {
       </DialogTrigger>
       <DialogContent className="shad-dialog">
         <DialogHeader>
-          <DialogTitle>Delete "{title}"</DialogTitle>
+          <DialogTitle>Delete {title}</DialogTitle>
           <DialogDescription>
             This action cannot be undone. This will permanently delete your
             document.
