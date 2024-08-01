@@ -15,9 +15,6 @@ const Notification = () => {
   const unreadNotifications = inboxNotifications.filter(
     (inboxNotification) => !inboxNotification.readAt
   );
-  // const markAllInboxNotificationsAsRead = useMarkAllInboxNotificationsAsRead();
-  console.log(inboxNotifications);
-
   return (
     <Popover>
       <PopoverTrigger className="relative flex size-10 items-center justify-center rounded-lg">
@@ -70,7 +67,7 @@ const Notification = () => {
                       aside={
                         <InboxNotification.Icon className="bg-transparent">
                           <Image
-                            src={ (props.inboxNotification.activities[0].data.title as string) || '' }
+                            src={ (props.inboxNotification.activities[0].data.avatar as string) || '' }
                             width={36}
                             height={36}
                             alt="Avatar"
